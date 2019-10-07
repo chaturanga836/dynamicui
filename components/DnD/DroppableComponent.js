@@ -23,7 +23,6 @@ const DroppableComponent = (WrapComp) => {
       // const jsonString = e.dataTransfer.getData('text/plain');
       // const data = JSON.parse(jsonString);
       // data.nestedlevel = elem.nestedlevel;
-    
       // border = 'none';
       // changeStyle({ border });
       e.stopPropagation();
@@ -45,9 +44,9 @@ const DroppableComponent = (WrapComp) => {
     };
 
     return(
-    <div onDrop={drop} onDragOver={allowDrop} onDragLeave={onDragLeav} style={elemStyle} name="dropable-element">
-      <WrapComp />
-    </div>
+      <div onDrop={drop} onDragOver={allowDrop} onDragLeave={onDragLeav} style={elemStyle} name="dropable-element">
+        <WrapComp />
+      </div>
     )};
 };
 
