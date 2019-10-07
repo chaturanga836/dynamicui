@@ -1,16 +1,17 @@
 import React from 'react';
-import DroppableComponent from '../DnD/DroppableComponent';
 import Grid from '@material-ui/core/Grid';
+import DroppableComponent from '../DnD/DroppableComponent';
 
 
-const Cell = (props) =>{
-
-    const { children, nestedlevel, index } = props;
-    return (
+const Cell = (props) => {
+  const { children, childelements, position, currentIndex } = props;
+  return (
+    <DroppableComponent meta={{ position, children: childelements }} currentIndex={currentIndex}>
       <Grid item xs>
         {children}
       </Grid>
-    );
-}
+    </DroppableComponent>
+  );
+};
 
-export default DroppableComponent(Cell);
+export default Cell;

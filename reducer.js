@@ -20,7 +20,7 @@ export const initialState = {
   rowCount: 4,
   colCount: 2,
   drawaingPad: {
-    children: Data,
+    children: [],
   },
 };
 
@@ -65,31 +65,69 @@ function reducer(state = initialState, action) {
 
     case actionTypes.DRAG_SELECTOR: {
       const newDrawaingPad = cloneDeep(state.drawaingPad);
-      const level = action.data.element.nestedLevel;
-      const pIndex = action.data.parent.index;
+      const { position } = action.data;
+      const { currentIndex } = action.data;
+      const { element } = action.data;
+    
+      const iterate = (obj, elem, mPosition, mCurrentIndex, incval) => {
+        const pos = mPosition[incval][1];
 
-
-      const iterate = (obj, currLevel, originLevel, index) => {
-        console.log(obj);
-        if (currLevel < originLevel) {
-          iterate(obj.children);
+        if (mCurrentIndex < incval) {
+          iterate(obj[pos].children, elem, mPosition, mCurrentIndex, incval + 1);
+        } else {
+          obj[pos].children.push({
+            parent: 'root',
+            id: `root-${incval}-${pos}`,
+            nestedLevel: incval,
+            index: pos,
+            element: {
+              canHaveChildren: elem.canHaveChildren,
+              text: elem.text,
+              value: elem.value,
+              icon: 'input',
+            },
+            children: [],
+          });
         }
       };
 
-      iterate(newDrawaingPad, level, level, pIndex);
+      console.log(currentIndex)
 
-      if (action.data.element.value === 'root') {
-        // if (newDrawaingPad.children === undefined) {
-        //   newDrawaingPad.children = [];
-        // }
-        // newDrawaingPad.children.push({
-        //   parent: action.data.element,
-        //   children: [],
-        // });
+      if (currentIndex === 0) {
+        const curlen = newDrawaingPad.children.length;
+        newDrawaingPad.children.push(
+          {
+            parent: 'root',
+            id: `root-${curlen}`,
+            nestedLevel: 0,
+            index: curlen,
+            element: {
+              canHaveChildren: element.canHaveChildren,
+              text: element.text,
+              value: element.value,
+              icon: 'input',
+            },
+            children: [],
+          },
+        );
       } else {
-        // const res = iterable(action.data.element, newDrawaingPad, level);
-        // console.log(res);
+        iterate(newDrawaingPad.children, element, position, currentIndex, 0);
       }
+
+
+       console.log(newDrawaingPad);
+      // if (action.data.element.value === 'root') {
+      //   // if (newDrawaingPad.children === undefined) {
+      //   //   newDrawaingPad.children = [];
+      //   // }
+      //   // newDrawaingPad.children.push({
+      //   //   parent: action.data.element,
+      //   //   children: [],
+      //   // });
+      // } else {
+      //   // const res = iterable(action.data.element, newDrawaingPad, level);
+      //   // console.log(res);
+      // }
       return assign(state, { drawaingPad: newDrawaingPad });
     }
 

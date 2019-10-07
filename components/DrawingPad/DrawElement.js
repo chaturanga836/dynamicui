@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const LAYOUT = (props) => {
-  const { children, nestedlevel, index } = props;
+  const { children } = props;
 
   return (
     <Paper>
@@ -42,24 +42,35 @@ const LAYOUT = (props) => {
 
 const DrawElement = (props) => {
   const classes = useStyles();
-  const { children, nestedlevel, index } = props;
+  const {
+    children, childelements, position, currentIndex,
+  } = props;
+
   switch (props.name.toUpperCase()) {
     case 'BUTTON': {
-      return (<><Button nestedlevel={nestedlevel}>Button</Button></>);
+      return (<><Button>Button</Button></>);
     }
 
     case 'CONTAINER': {
       return (
-        <Container>
-            {children}
+        <Container
+          position={position}
+          childelements={childelements}
+          currentIndex={currentIndex}
+        >
+          {children}
         </Container>
- 
+
       );
     }
 
     case 'CELL': {
       return (
-        <Cell>
+        <Cell
+          position={position}
+          childelements={childelements}
+          currentIndex={currentIndex}
+        >
           {children}
         </Cell>
       );
@@ -82,7 +93,7 @@ const DrawElement = (props) => {
             className={classes.textField}
             margin="normal"
             variant="outlined"
-            nestedlevel={nestedlevel}
+
           />
 
         </>
@@ -90,15 +101,15 @@ const DrawElement = (props) => {
     }
 
     case 'LABEL': {
-      return (<><TextField nestedlevel={nestedlevel} /></>);
+      return (<><TextField /></>);
     }
 
     case 'RADIO-BUTTON': {
-      return (<><Radio nestedlevel={nestedlevel} /></>);
+      return (<><Radio /></>);
     }
 
     case 'CHECK-BOX': {
-      return (<><Checkbox nestedlevel={nestedlevel} /></>);
+      return (<><Checkbox /></>);
     }
 
     case 'RADIO-GROUP': {
@@ -109,7 +120,7 @@ const DrawElement = (props) => {
       );
     }
     default: {
-      return (<div nestedlevel={nestedlevel}>default</div>);
+      return (<div>un identified element</div>);
     }
   }
 };

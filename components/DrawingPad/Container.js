@@ -1,8 +1,8 @@
 import React from 'react';
-import DroppableComponent from '../DnD/DroppableComponent';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import DroppableComponent from '../DnD/DroppableComponent';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -16,17 +16,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Container = (props) => {
-    const { children, nestedlevel, index } = props;
+  const { children, childelements, position, currentIndex } = props;
 
-    const classes = useStyles();
-  
-    return (
+  const classes = useStyles();
+
+  return (
+    <DroppableComponent meta={{ position, children: childelements }} currentIndex={currentIndex}>
       <Grid container spacing={1} className={classes.root}>
         <Paper>
           {children}
         </Paper>
       </Grid>
-    );
-  };
+    </DroppableComponent>
+  );
+};
 
-export default DroppableComponent(Container);
+export default Container;

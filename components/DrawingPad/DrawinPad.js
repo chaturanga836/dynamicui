@@ -17,17 +17,23 @@ const useStyles = makeStyles((theme) => ({
 const DrawingPad = () => {
   const classes = useStyles();
   const drwaObj = useSelector((state) => state.drawaingPad);
+
   return (
     <>
-      <Paper className={classes.paperBody}>
-        <DrawComponent
-          childelements={drwaObj.children}
-          nestedlevel={0}
-          index={0}
-        />
-      </Paper>
+      <DroppableComponent
+        meta={{ position: [[0, 0]], children: drwaObj.children }}
+        currentIndex={0}
+      >
+        <Paper className={classes.paperBody}>
+          <DrawComponent
+            position={[[0, 0]]}
+            childelements={drwaObj.children}
+          />
+        </Paper>
+      </DroppableComponent>
+
     </>
   );
 };
 
-export default DroppableComponent(DrawingPad);
+export default DrawingPad;

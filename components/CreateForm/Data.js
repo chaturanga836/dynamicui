@@ -30,8 +30,8 @@ export const Data = [
         },
         children: [
           {
-            parent: '1',
-            id: 'root-1',
+            parent: 'root-1',
+            id: 'root-2',
             nestedLevel: 2,
             index: 0,
             element: {
