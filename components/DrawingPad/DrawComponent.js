@@ -5,7 +5,7 @@ import DrawElement from './DrawElement';
 
 const DrawComponent = (comp) => {
   const posArr = cloneDeep(comp.position);
-
+  console.log(posArr);
   const positions = last(posArr);
   const xVal = positions[0];
 
@@ -13,7 +13,7 @@ const DrawComponent = (comp) => {
     arr.push([xPos, Ypos]);
     return cloneDeep(arr);
   };
-  //console.log(posArr)
+
   return (
     <>
       {
@@ -25,7 +25,7 @@ const DrawComponent = (comp) => {
             key={v.id}
             index={k}
             childelements={v.children}
-            position={encriment(posArr, xVal + 1, k)}
+            position={encriment(posArr, xVal, k)}
             currentIndex={posArr.length}
           >
             <DrawComponent

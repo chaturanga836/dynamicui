@@ -19,9 +19,7 @@ export const initialState = {
   count: 0,
   rowCount: 4,
   colCount: 2,
-  drawaingPad: {
-    children: [],
-  },
+  drawaingPad: [],
 };
 
 function reducer(state = initialState, action) {
@@ -77,7 +75,7 @@ function reducer(state = initialState, action) {
         } else {
           obj[pos].children.push({
             parent: 'root',
-            id: `root-${incval}-${pos}`,
+            id: `root-${incval}-${obj[pos].children.length}`,
             nestedLevel: incval,
             index: pos,
             element: {
@@ -91,14 +89,12 @@ function reducer(state = initialState, action) {
         }
       };
 
-      console.log(currentIndex)
-
       if (currentIndex === 0) {
-        const curlen = newDrawaingPad.children.length;
-        newDrawaingPad.children.push(
+        const curlen = newDrawaingPad.length;
+        newDrawaingPad.push(
           {
             parent: 'root',
-            id: `root-${curlen}`,
+            id: `root-${0}-${curlen}`,
             nestedLevel: 0,
             index: curlen,
             element: {
@@ -111,23 +107,9 @@ function reducer(state = initialState, action) {
           },
         );
       } else {
-        iterate(newDrawaingPad.children, element, position, currentIndex, 0);
+        iterate(newDrawaingPad, element, position, currentIndex, 0);
       }
 
-
-       console.log(newDrawaingPad);
-      // if (action.data.element.value === 'root') {
-      //   // if (newDrawaingPad.children === undefined) {
-      //   //   newDrawaingPad.children = [];
-      //   // }
-      //   // newDrawaingPad.children.push({
-      //   //   parent: action.data.element,
-      //   //   children: [],
-      //   // });
-      // } else {
-      //   // const res = iterable(action.data.element, newDrawaingPad, level);
-      //   // console.log(res);
-      // }
       return assign(state, { drawaingPad: newDrawaingPad });
     }
 
