@@ -15,18 +15,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Container = (props) => {
-  const { children, childelements, position, className } = props;
+  const {
+    children, childelements, position, className, onDragOver, onDragLeave,
+  } = props;
 
   const classes = useStyles();
   className.push(classes.root);
 
   return (
     <DroppableComponent meta={{ position, children: childelements }}>
-      <Grid container spacing={1}  className={className.join(' ')}>
+      <Grid
+        container
+        spacing={1}
+        className={className.join(' ')}
+        onDrop={(e) => { onDrop(e, position, 0); }}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+      >
         {children}
       </Grid>
     </DroppableComponent>
   );
 };
 
-export default Container;
+export default DroppableComponent(Container);

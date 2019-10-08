@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
     padding: 0,
     margin: 0,
     display: 'inherit',
-    width: '100%',
+    width:'100%',
   },
   selectDroppable: {
     '& > .drawElement': {
@@ -18,30 +18,32 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const DroppableComponent = (WrapperComponent) => () => {
+const DroppableComponent = (elem) => {
   /**
  *
  * @param {*} e
  *
  * Drop Event handel here
  */
-  const classes = useStyles();
-  let className = classes.defaulElem;
 
+  const classes = useStyles();
 
   const dispatch = useDispatch();
+
+  console.log(elem.className)
+  let className = classes.defaulElem;
   const [elemStyle, changeStyle] = useState({ className });
 
-  const drop = (e, position, currentIndex) => {
+  const drop = (e) => {
     e.preventDefault();
     const jsonString = e.dataTransfer.getData('text/plain');
     const data = JSON.parse(jsonString);
 
     // console.log([elem,data])
-    // data.nestedlevel = elem.nestedlevel;
+    data.nestedlevel = elem.nestedlevel;
     changeStyle({ className });
     e.stopPropagation();
-    dispatch({ type: 'DRAG_SELECTOR', data: { position, currentIndex, element: data } });
+    dispatch({ type: 'DRAG_SELECTOR', data: { position: elem.meta.position, currentIndex: elem.currentIndex, element: data } });
   };
 
   const allowDrop = (e) => {
@@ -59,14 +61,16 @@ const DroppableComponent = (WrapperComponent) => () => {
   };
 
   return (
-    <>
-      <WrapperComponent
-        onDrop={drop}
-        onDragOver={allowDrop}
-        onDragLeave={onDragLeav}
-        className={elemStyle.className}
-      />
-    </>
+    <div
+      id={elem.id}
+      onDrop={drop}
+      onDragOver={allowDrop}
+      onDragLeave={onDragLeav}
+      className={elemStyle.className}
+      name="dropable-element"
+    >
+      {elem.children}
+    </div>
   );
 };
 

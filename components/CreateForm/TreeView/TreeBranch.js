@@ -83,6 +83,8 @@ const StyledTreeItem = (props) => {
   );
 };
 
+const DropableStyledTreeItem = DroppableComponent(StyledTreeItem);
+
 const TreeBranch = (props) => {
   const {
     childNodes, nodeId, nestedIndex, position,
@@ -103,23 +105,14 @@ const TreeBranch = (props) => {
          if (v.children.length > 0) {
            if (v.element.canHaveChildren) {
              return (
-               <DroppableComponent
-                 key={`tree_branch_${v.id}`}
-                 meta={
-           {
-             position: encriment(posArr, nestedIndex + 1, k),
-             children: v.children,
-           }
-           }
-               >
-                 <StyledTreeItem nodeId={nodeId + k} labelText={v.element.text}>
+                 <DropableStyledTreeItem key={`tree_branch_${v.id}`} nodeId={nodeId + k} labelText={v.element.text} position={encriment(posArr, nestedIndex + 1, k)}>
                    <TreeBranch
                      nodeId={nodeId + childNodes.length + 1}
                      childNodes={v.children}
                      position={encriment(posArr, nestedIndex + 1, k)}
                    />
-                 </StyledTreeItem>
-               </DroppableComponent>
+                 </DropableStyledTreeItem>
+               
              );
            }
 
@@ -137,21 +130,14 @@ const TreeBranch = (props) => {
 
          if (v.element.canHaveChildren) {
            return (
-             <DroppableComponent
-               key={`tree_branch_${v.id}`}
-               meta={
-              {
-                position: encriment(posArr, nestedIndex, k),
-                children: [],
-              }
-              }
-             >
-               <StyledTreeItem
+               <DropableStyledTreeItem
+                 key={`tree_branch_${v.id}`}
+                position={ encriment(posArr, nestedIndex, k)}
                  nodeId={nodeId + k}
                  labelText={v.element.text}
                  position={encriment(posArr, nestedIndex, k)}
                />
-             </DroppableComponent>
+             
            );
          }
          return (

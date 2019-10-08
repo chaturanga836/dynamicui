@@ -4,16 +4,19 @@ import DroppableComponent from '../DnD/DroppableComponent';
 const Layout = (props) => {
   const classes = useStyles();
   const {
-    children, childelements, position, className,
+    children, position, onDragOver, className, onDragLeave,
   } = props;
   className.push(classes.paper);
   return (
-    <DroppableComponent meta={{ position, children: childelements }}>
-      <Paper className={className}>
-        {children}
-      </Paper>
-    </DroppableComponent>
+    <Paper
+      className={className}
+      onDrop={(e) => { onDrop(e, position, 0); }}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+    >
+      {children}
+    </Paper>
   );
 };
 
-export default Layout;
+export default DroppableComponent(Layout);
