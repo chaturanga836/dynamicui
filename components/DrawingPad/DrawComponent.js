@@ -1,5 +1,5 @@
 import React from 'react';
-import { last, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 import DrawElement from './DrawElement';
 
 

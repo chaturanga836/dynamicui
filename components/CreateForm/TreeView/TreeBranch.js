@@ -2,6 +2,8 @@ import React from 'react';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { cloneDeep } from 'lodash';
+import DroppableComponent from '../../DnD/DroppableComponent';
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -82,21 +84,83 @@ const StyledTreeItem = (props) => {
 };
 
 const TreeBranch = (props) => {
-  const { childNodes, nodeId } = props;
-  return (
+  const {
+    childNodes, nodeId, nestedIndex, position,
+  } = props;
 
+  const posArr = cloneDeep(position);
+
+  const encriment = (arr, xPos, Ypos) => {
+    arr.push([xPos, Ypos]);
+    return cloneDeep(arr);
+  };
+
+
+  return (
     <>
       {
        childNodes.map((v, k) => {
          if (v.children.length > 0) {
+           if (v.element.canHaveChildren) {
+             return (
+               <DroppableComponent
+                 key={`tree_branch_${v.id}`}
+                 meta={
+           {
+             position: encriment(posArr, nestedIndex + 1, k),
+             children: v.children,
+           }
+           }
+               >
+                 <StyledTreeItem nodeId={nodeId + k} labelText={v.element.text}>
+                   <TreeBranch
+                     nodeId={nodeId + childNodes.length + 1}
+                     childNodes={v.children}
+                     position={encriment(posArr, nestedIndex + 1, k)}
+                   />
+                 </StyledTreeItem>
+               </DroppableComponent>
+             );
+           }
+
            return (
-             <StyledTreeItem nodeId={nodeId + k} labelText={v.element.text} key={v.id}>
-               <TreeBranch nodeId={nodeId + childNodes.length + 1} childNodes={v.children}/>
+             <StyledTreeItem nodeId={nodeId + k} labelText={v.element.text} key={`tree_branch_${v.id}`}>
+               <TreeBranch
+                 nodeId={nodeId + childNodes.length + 1}
+                 childNodes={v.children}
+                 position={encriment(posArr, nestedIndex + 1, k)}
+               />
              </StyledTreeItem>
+
+           );
+         }
+
+         if (v.element.canHaveChildren) {
+           return (
+             <DroppableComponent
+               key={`tree_branch_${v.id}`}
+               meta={
+              {
+                position: encriment(posArr, nestedIndex, k),
+                children: [],
+              }
+              }
+             >
+               <StyledTreeItem
+                 nodeId={nodeId + k}
+                 labelText={v.element.text}
+                 position={encriment(posArr, nestedIndex, k)}
+               />
+             </DroppableComponent>
            );
          }
          return (
-           <StyledTreeItem nodeId={nodeId + k} labelText={v.element.text} key={v.id}/>
+           <StyledTreeItem
+             key={`tree_branch_${v.id}`}
+             nodeId={nodeId + k}
+             labelText={v.element.text}
+             position={encriment(posArr, nestedIndex, k)}
+           />
          );
        })
    }

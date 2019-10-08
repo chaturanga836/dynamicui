@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { shadows } from '@material-ui/system';
 
 const useStyles = makeStyles(() => ({
-
-  selectDroppable: {
-    backgroundColor: '#A0F790 !important',
-    '& *': {
-      backgroundColor: '#A0F790 !important',
-    },
+  defaulElem: {
+    padding: 0,
+    margin: 0,
+    display: 'inherit',
+    width:'100%',
   },
-
-  unselectDroppable: {
-    backgroundColor: 'inherit',
-    '& *': {
-      backgroundColor: 'inherit',
+  selectDroppable: {
+    '& > .drawElement': {
+      backgroundColor: 'rgba(102, 217, 255,0.75) !important',
+      boxShadow: '-2px 2px 8px -1px rgba(0,0,0,0.75)',
     },
   },
 
@@ -33,8 +30,8 @@ const DroppableComponent = (elem) => {
 
   const dispatch = useDispatch();
 
-
-  let className = classes.unselectDroppable;
+  console.log(elem.className)
+  let className = classes.defaulElem;
   const [elemStyle, changeStyle] = useState({ className });
 
   const drop = (e) => {
@@ -58,7 +55,7 @@ const DroppableComponent = (elem) => {
 
   const onDragLeav = (e) => {
     e.preventDefault();
-    className = classes.unselectDroppable;
+    className = classes.defaulElem;
     changeStyle({ className });
     e.stopPropagation();
   };

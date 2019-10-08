@@ -6,10 +6,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import Select from '@material-ui/core/Select';
 import Container from './Container';
 import Cell from './Cell';
 import SelectDropDown from './SelectDropDown';
+import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -25,29 +25,25 @@ const useStyles = makeStyles((theme) => ({
   control: {
     margin: theme.spacing(2),
   },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
 }));
-
-
-const LAYOUT = (props) => {
-  const { children } = props;
-
-  return (
-    <Paper>
-      {children}
-    </Paper>
-  );
-};
 
 
 const DrawElement = (props) => {
   const classes = useStyles();
   const {
-    children, childelements, position 
+    children, childelements, position,
   } = props;
+
+  const classNames = ['drawElement'];
 
   switch (props.name.toUpperCase()) {
     case 'BUTTON': {
-      return (<><Button>Button</Button></>);
+      return (<><Button className={classNames.join(' ')}>Button</Button></>);
     }
 
     case 'CONTAINER': {
@@ -55,6 +51,7 @@ const DrawElement = (props) => {
         <Container
           position={position}
           childelements={childelements}
+          className={classNames}
         >
           {children}
         </Container>
@@ -67,6 +64,7 @@ const DrawElement = (props) => {
         <Cell
           position={position}
           childelements={childelements}
+          className={classNames}
         >
           {children}
         </Cell>
@@ -75,7 +73,11 @@ const DrawElement = (props) => {
 
     case 'LAYOUT': {
       return (
-        <LAYOUT>
+        <LAYOUT
+          position={position}
+          childelements={childelements}
+          className={classNames}
+        >
           {children}
         </LAYOUT>
 
@@ -83,16 +85,15 @@ const DrawElement = (props) => {
     }
 
     case 'INPUT': {
+      classNames.push(classes.textField);
       return (
         <>
           <TextField
             id="outlined-name"
-            className={classes.textField}
+            className={classNames.join(' ')}
             margin="normal"
             variant="outlined"
-
           />
-
         </>
       );
     }
@@ -120,7 +121,7 @@ const DrawElement = (props) => {
     case 'COMBOBOX': {
       return (
 
-        <SelectDropDown />
+        <SelectDropDown className={classNames.join(' ')} />
 
       );
     }

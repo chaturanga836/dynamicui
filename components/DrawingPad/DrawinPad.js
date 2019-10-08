@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 const DrawingPad = () => {
   const classes = useStyles();
   const drwaObj = useSelector((state) => state.drawaingPad);
-
+ 
+  const classNames = ['drawElement',classes.paperBody]
   return (
     <>
 
@@ -27,7 +28,7 @@ const DrawingPad = () => {
         nestedIndex={0}
         rowIndex={0}
       >
-        <Paper className={classes.paperBody}>
+        <Paper className={classNames.join(' ')}>
           <DrawComponent
             position={[]}
             childelements={drwaObj}
