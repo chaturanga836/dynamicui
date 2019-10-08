@@ -4,13 +4,12 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Radio from '@material-ui/core/Radio';
-import Grid from '@material-ui/core/Grid';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import Select from '@material-ui/core/Select';
 import Container from './Container';
 import Cell from './Cell';
-// import GridComponent from '../CreateForm/GridComponents/GridComponent';
-// import DroppableComponent from '../DnD/DroppableComponent';
+import SelectDropDown from './SelectDropDown';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -43,7 +42,7 @@ const LAYOUT = (props) => {
 const DrawElement = (props) => {
   const classes = useStyles();
   const {
-    children, childelements, position, currentIndex,
+    children, childelements, position 
   } = props;
 
   switch (props.name.toUpperCase()) {
@@ -56,7 +55,6 @@ const DrawElement = (props) => {
         <Container
           position={position}
           childelements={childelements}
-          currentIndex={currentIndex}
         >
           {children}
         </Container>
@@ -69,7 +67,6 @@ const DrawElement = (props) => {
         <Cell
           position={position}
           childelements={childelements}
-          currentIndex={currentIndex}
         >
           {children}
         </Cell>
@@ -116,6 +113,14 @@ const DrawElement = (props) => {
       return (
 
         <RadioGroup />
+
+      );
+    }
+
+    case 'COMBOBOX': {
+      return (
+
+        <SelectDropDown />
 
       );
     }

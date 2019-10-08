@@ -60,8 +60,18 @@ const suggestions = [
     ),
   },
   {
-    value: 'radio-button',
-    text: 'RADIO BUTTON',
+    value: 'combobox',
+    text: 'COMBOBOX',
+    canHaveChildren: false,
+    icon: () => (
+      <>
+        <CalendarToday />
+      </>
+    ),
+  },
+  {
+    value: 'cell',
+    text: 'CELL',
     canHaveChildren: false,
     icon: () => (
       <>

@@ -64,20 +64,21 @@ function reducer(state = initialState, action) {
     case actionTypes.DRAG_SELECTOR: {
       const newDrawaingPad = cloneDeep(state.drawaingPad);
       const { position } = action.data;
-      const { currentIndex } = action.data;
+  
       const { element } = action.data;
-    
-      const iterate = (obj, elem, mPosition, mCurrentIndex, incval) => {
-        const pos = mPosition[incval][1];
 
-        if (mCurrentIndex < incval) {
-          iterate(obj[pos].children, elem, mPosition, mCurrentIndex, incval + 1);
+      const iterate = (obj, elem, mPosition, incval) => {
+        const xPos = mPosition[incval][0];
+        const yPos = mPosition[incval][1];
+
+        if (xPos !== incval) {
+          iterate(obj[yPos].children, elem, mPosition, incval + 1);
         } else {
-          obj[pos].children.push({
+          obj[yPos].children.push({
             parent: 'root',
-            id: `root-${incval}-${obj[pos].children.length}`,
+            id: `root-${xPos}-${obj[yPos].children.length}`,
             nestedLevel: incval,
-            index: pos,
+            index: yPos,
             element: {
               canHaveChildren: elem.canHaveChildren,
               text: elem.text,
@@ -89,7 +90,7 @@ function reducer(state = initialState, action) {
         }
       };
 
-      if (currentIndex === 0) {
+      if (position.length < 1) {
         const curlen = newDrawaingPad.length;
         newDrawaingPad.push(
           {
@@ -107,7 +108,7 @@ function reducer(state = initialState, action) {
           },
         );
       } else {
-        iterate(newDrawaingPad, element, position, currentIndex, 0);
+        iterate(newDrawaingPad, element, position, 0);
       }
 
       return assign(state, { drawaingPad: newDrawaingPad });

@@ -16,16 +16,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Container = (props) => {
-  const { children, childelements, position, currentIndex } = props;
+  const { children, childelements, position } = props;
 
   const classes = useStyles();
 
   return (
-    <DroppableComponent meta={{ position, children: childelements }} currentIndex={currentIndex}>
+    <DroppableComponent meta={{ position, children: childelements }}>
       <Grid container spacing={1} className={classes.root}>
-        <Paper>
           {children}
-        </Paper>
       </Grid>
     </DroppableComponent>
   );

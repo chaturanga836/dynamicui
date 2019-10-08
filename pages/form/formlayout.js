@@ -171,7 +171,7 @@ const formLayout = () => {
                                   <ListItemIcon>
                                     <InboxIcon />
                                   </ListItemIcon>
-                                  <ListItemText primary={v.value} />
+                                  <ListItemText primary={v.text} />
                                 </ListItem>
                               </DraggableComponent>
                             );
@@ -192,7 +192,7 @@ const formLayout = () => {
                                   <ListItemIcon>
                                     <InboxIcon />
                                   </ListItemIcon>
-                                  <ListItemText primary={v.value} />
+                                  <ListItemText primary={v.text} />
                                 </ListItem>
                               </DraggableComponent>
                             );

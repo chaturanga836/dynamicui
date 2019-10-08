@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import { shadows } from '@material-ui/system';
 
+const useStyles = makeStyles(() => ({
+
+  selectDroppable: {
+    backgroundColor: '#A0F790 !important',
+    '& *': {
+      backgroundColor: '#A0F790 !important',
+    },
+  },
+
+  unselectDroppable: {
+    backgroundColor: 'inherit',
+    '& *': {
+      backgroundColor: 'inherit',
+    },
+  },
+
+}));
 
 const DroppableComponent = (elem) => {
   /**
@@ -10,12 +29,13 @@ const DroppableComponent = (elem) => {
  * Drop Event handel here
  */
 
+  const classes = useStyles();
 
   const dispatch = useDispatch();
 
 
-  let border = 'none';
-  const [elemStyle, changeStyle] = useState({ border });
+  let className = classes.unselectDroppable;
+  const [elemStyle, changeStyle] = useState({ className });
 
   const drop = (e) => {
     e.preventDefault();
@@ -24,22 +44,22 @@ const DroppableComponent = (elem) => {
 
     // console.log([elem,data])
     data.nestedlevel = elem.nestedlevel;
-    changeStyle({ border });
+    changeStyle({ className });
     e.stopPropagation();
     dispatch({ type: 'DRAG_SELECTOR', data: { position: elem.meta.position, currentIndex: elem.currentIndex, element: data } });
   };
 
   const allowDrop = (e) => {
     e.preventDefault();
-    border = '5px solid #eb4034';
-    changeStyle({ border });
+    className = classes.selectDroppable;
+    changeStyle({ className });
     e.stopPropagation();
   };
 
   const onDragLeav = (e) => {
     e.preventDefault();
-    border = 'none';
-    changeStyle({ border });
+    className = classes.unselectDroppable;
+    changeStyle({ className });
     e.stopPropagation();
   };
 
@@ -49,7 +69,7 @@ const DroppableComponent = (elem) => {
       onDrop={drop}
       onDragOver={allowDrop}
       onDragLeave={onDragLeav}
-      style={elemStyle}
+      className={elemStyle.className}
       name="dropable-element"
     >
       {elem.children}

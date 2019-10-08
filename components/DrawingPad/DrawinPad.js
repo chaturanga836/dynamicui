@@ -22,16 +22,16 @@ const DrawingPad = () => {
     <>
 
       <DroppableComponent
-        meta={{ position: [[0, 0]], children: drwaObj }}
+        meta={{ position: [], children: drwaObj }}
         currentIndex={0}
-        nesteedIndex={0}
+        nestedIndex={0}
         rowIndex={0}
       >
         <Paper className={classes.paperBody}>
           <DrawComponent
-            position={[[0, 0]]}
+            position={[]}
             childelements={drwaObj}
-            nesteedIndex={0}
+            nestedIndex={0}
             rowIndex={0}
           />
         </Paper>

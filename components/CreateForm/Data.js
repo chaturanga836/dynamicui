@@ -111,8 +111,8 @@ export const Elements = [
   },
 
   {
-    value: 'combobox',
-    text: 'COMBOBOX',
+    value: 'combo-box',
+    text: 'COMBO BOX',
     canHaveChildren: false,
     icon: () => (
       <>
@@ -122,8 +122,8 @@ export const Elements = [
   },
 
   {
-    value: 'combobox',
-    text: 'COMBOBOX',
+    value: 'cell',
+    text: 'CELL',
     canHaveChildren: false,
     icon: () => (
       <>
@@ -131,4 +131,16 @@ export const Elements = [
       </>
     ),
   },
+
+  {
+    value: 'radio-button',
+    text: 'RADIO BUTTON',
+    canHaveChildren: false,
+    icon: () => (
+      <>
+        <CalendarToday />
+      </>
+    ),
+  },
+
 ];

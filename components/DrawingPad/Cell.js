@@ -4,9 +4,9 @@ import DroppableComponent from '../DnD/DroppableComponent';
 
 
 const Cell = (props) => {
-  const { children, childelements, position, currentIndex } = props;
+  const { children, childelements, position } = props;
   return (
-    <DroppableComponent meta={{ position, children: childelements }} currentIndex={currentIndex}>
+    <DroppableComponent meta={{ position, children: childelements }} >
       <Grid item xs>
         {children}
       </Grid>

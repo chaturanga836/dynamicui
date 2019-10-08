@@ -4,10 +4,7 @@ import DrawElement from './DrawElement';
 
 
 const DrawComponent = (comp) => {
-  const posArr = cloneDeep(comp.position);
-  console.log(posArr);
-  const positions = last(posArr);
-  const xVal = positions[0];
+  const { nestedIndex } = comp;
 
   const encriment = (arr, xPos, Ypos) => {
     arr.push([xPos, Ypos]);
@@ -18,18 +15,21 @@ const DrawComponent = (comp) => {
     <>
       {
     comp.childelements.map((v, k) => {
+      const posArr = cloneDeep(comp.position);
       if (v.children && v.children.length > 0) {
         return (
           <DrawElement
+            nestedIndex={nestedIndex}
             name={v.element.value}
             key={v.id}
             index={k}
             childelements={v.children}
-            position={encriment(posArr, xVal, k)}
-            currentIndex={posArr.length}
+            position={encriment(posArr, nestedIndex, k)}
+
           >
             <DrawComponent
-              position={encriment(posArr, xVal + 1, k)}
+              nestedIndex={nestedIndex + 1}
+              position={encriment(posArr, nestedIndex + 1, k)}
               childelements={v.children}
             />
           </DrawElement>
@@ -40,9 +40,8 @@ const DrawComponent = (comp) => {
           key={v.id}
           name={v.element.value}
           index={k}
-          position={encriment(posArr, xVal + 1, k)}
+          position={encriment(posArr, nestedIndex , k)}
           childelements={[]}
-          currentIndex={posArr.length}
         />
       );
     })
