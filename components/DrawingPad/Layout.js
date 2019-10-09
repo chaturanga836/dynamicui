@@ -1,22 +1,51 @@
 import React from 'react';
 import DroppableComponent from '../DnD/DroppableComponent';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
-const Layout = (props) => {
+const useStyles = makeStyles((theme) => ({
+  paperBody: {
+    padding: theme.spacing(4),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+
+const BluPrint = (props) => {
   const classes = useStyles();
   const {
-    children, position, onDragOver, className, onDragLeave,
+    onDrop, 
+    onDragOver,
+    onDragLeave, 
+    position,
+    childElement,
+    nestedIndex,
+    rendercomponent
   } = props;
-  className.push(classes.paper);
+
   return (
     <Paper
-      className={className}
-      onDrop={(e) => { onDrop(e, position, 0); }}
+      className={classes.paperBody}
+      onDrop={(e) => { onDrop(e); }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
     >
-      {children}
+      {rendercomponent}
     </Paper>
   );
 };
+const Layout = (props) => {
+  const {
+    children, 
+    position, 
+    nestedIndex,
+  } = props;
 
-export default DroppableComponent(Layout);
+  const classes = useStyles();
+
+  const Element = DroppableComponent({ position, nestedIndex, rendercomponet: children, classes })(BluPrint);
+  return (<Element>{children}</Element>);
+};
+
+export default Layout;

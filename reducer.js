@@ -64,12 +64,10 @@ function reducer(state = initialState, action) {
     case actionTypes.DRAG_SELECTOR: {
       const newDrawaingPad = cloneDeep(state.drawaingPad);
       const { position } = action.data;
-  
       const { element } = action.data;
 
       const iterate = (obj, elem, mPosition, incval) => {
-        const xPos = mPosition[incval][0];
-        const yPos = mPosition[incval][1];
+        const [xPos, yPos] = mPosition[incval];
 
         if (xPos !== incval) {
           iterate(obj[yPos].children, elem, mPosition, incval + 1);

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const DrawElement = (props) => {
   const classes = useStyles();
   const {
-    children, childelements, position,
+    children, childelements, position, nestedIndex,
   } = props;
 
   const classNames = ['drawElement'];
@@ -47,11 +47,13 @@ const DrawElement = (props) => {
     }
 
     case 'CONTAINER': {
+     
       return (
         <Container
           position={position}
           childelements={childelements}
           className={classNames}
+          nestedIndex={nestedIndex}
         >
           {children}
         </Container>
@@ -65,6 +67,7 @@ const DrawElement = (props) => {
           position={position}
           childelements={childelements}
           className={classNames}
+          nestedIndex={nestedIndex}
         >
           {children}
         </Cell>
@@ -73,13 +76,14 @@ const DrawElement = (props) => {
 
     case 'LAYOUT': {
       return (
-        <LAYOUT
+        <Layout
           position={position}
           childelements={childelements}
           className={classNames}
+          nestedIndex={nestedIndex}
         >
           {children}
-        </LAYOUT>
+        </Layout>
 
       );
     }

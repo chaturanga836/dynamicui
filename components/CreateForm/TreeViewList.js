@@ -29,7 +29,7 @@ const TreeViewList = () => {
         defaultExpandIcon={<ArrowRightIcon />}
         defaultEndIcon={<div style={{ width: 24 }} />}
       >
-        <TreeBranch nodeId="1" labelText="Grid" nestedIndex={0} position={[]} labelIcon={ViewModule} childNodes={drwaObj} />
+        <TreeBranch nodeId="1" labelText="Grid" nestedindex={0} position={[]} labelIcon={ViewModule} childNodes={drwaObj} />
       </TreeView>
     </>
   );

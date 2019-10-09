@@ -52,7 +52,7 @@ const StyledTreeItem = (props) => {
   const classes = useTreeItemStyles();
 
   const {
-    labelText, labelInfo, color, bgColor, ...other
+    labeltext, labelInfo, color, bgColor, ...other
   } = props;
 
   return (
@@ -60,7 +60,7 @@ const StyledTreeItem = (props) => {
       label={(
         <div className={classes.labelRoot}>
           <Typography variant="body2" className={classes.labelText}>
-            {labelText}
+            {labeltext}
           </Typography>
           <Typography variant="caption" color="inherit">
             {labelInfo}
@@ -83,11 +83,10 @@ const StyledTreeItem = (props) => {
   );
 };
 
-const DropableStyledTreeItem = DroppableComponent(StyledTreeItem);
 
 const TreeBranch = (props) => {
   const {
-    childNodes, nodeId, nestedIndex, position,
+    childNodes, nodeId, nestedindex, position,
   } = props;
 
   const posArr = cloneDeep(position);
@@ -102,54 +101,30 @@ const TreeBranch = (props) => {
     <>
       {
        childNodes.map((v, k) => {
-         if (v.children.length > 0) {
-           if (v.element.canHaveChildren) {
-             return (
-                 <DropableStyledTreeItem key={`tree_branch_${v.id}`} nodeId={nodeId + k} labelText={v.element.text} position={encriment(posArr, nestedIndex + 1, k)}>
-                   <TreeBranch
-                     nodeId={nodeId + childNodes.length + 1}
-                     childNodes={v.children}
-                     position={encriment(posArr, nestedIndex + 1, k)}
-                   />
-                 </DropableStyledTreeItem>
-               
-             );
-           }
-
+         if (v.children.length < 1) {
            return (
-             <StyledTreeItem nodeId={nodeId + k} labelText={v.element.text} key={`tree_branch_${v.id}`}>
-               <TreeBranch
-                 nodeId={nodeId + childNodes.length + 1}
-                 childNodes={v.children}
-                 position={encriment(posArr, nestedIndex + 1, k)}
-               />
-             </StyledTreeItem>
-
-           );
-         }
-
-         if (v.element.canHaveChildren) {
-           return (
-               <DropableStyledTreeItem
-                 key={`tree_branch_${v.id}`}
-                position={ encriment(posArr, nestedIndex, k)}
-                 nodeId={nodeId + k}
-                 labelText={v.element.text}
-                 position={encriment(posArr, nestedIndex, k)}
-               />
-             
+             <StyledTreeItem
+               nodeId={nodeId + k}
+               labeltext={v.element.text}
+               key={`tree_branch_${v.id}`}
+             />
            );
          }
          return (
            <StyledTreeItem
-             key={`tree_branch_${v.id}`}
              nodeId={nodeId + k}
-             labelText={v.element.text}
-             position={encriment(posArr, nestedIndex, k)}
-           />
+             labeltext={v.element.text}
+             key={`tree_branch_${v.id}`}
+           >
+             <TreeBranch
+               nodeId={nodeId + childNodes.length + 1}
+               childNodes={v.children}
+               position={encriment(posArr, nestedindex + 1, k)}
+             />
+           </StyledTreeItem>
          );
        })
-   }
+      }
     </>
   );
 };

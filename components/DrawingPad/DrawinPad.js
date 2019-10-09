@@ -14,25 +14,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DrawingPad = (props) => {
-  const { onDrop, onDragOver, onDragLeave } = props;
+const DrawindPadFormat = (props) => {
   const classes = useStyles();
-  const drwaObj = useSelector((state) => state.drawaingPad);
-
-  const classNames = ['drawElement', classes.paperBody];
+  const {
+    onDrop, 
+    onDragOver, 
+    onDragLeave, 
+    position, 
+    childelements, 
+    nestedindex,
+    cssstyles,
+  } = props;
+  console.log(cssstyles)
   return (
-    <>
-      <Paper className={classNames.join(' ')} onDrop={(e) => { onDrop(e, [], 0); }} onDragOver={onDragOver} onDragLeave={onDragLeave}>
-        <DrawComponent
-          position={[]}
-          childelements={drwaObj}
-          nestedIndex={0}
-          rowIndex={0}
-        />
-      </Paper>
-
-    </>
+    <Paper
+      className={classes.paperBody}
+      onDrop={(e) => { onDrop(e); }}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+    >
+      <DrawComponent
+        position={position}
+        childelements={childelements}
+        nestedIndex={nestedindex}
+        rowIndex={0}
+      />
+    </Paper>
   );
 };
 
-export default DroppableComponent(DrawingPad);
+
+const DrawingPad = () => {
+  const classes = useStyles();
+  const drwaObj = useSelector((state) => state.drawaingPad);
+  const Element = DroppableComponent({ position: [], nestedIndex: 0, childElement: drwaObj, classes })(DrawindPadFormat);
+  return <Element />;
+};
+
+// export default DroppableComponent(DrawingPad);
+export default DrawingPad;

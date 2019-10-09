@@ -1,8 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import DroppableComponent from '../DnD/DroppableComponent';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import DroppableComponent from '../DnD/DroppableComponent';
+
+
 const useStyles = makeStyles((theme) => ({
 
   root: {
@@ -13,16 +14,33 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
-const Cell = (props) => {
-  const { children, childelements, position, className } = props;
-  const classes = useStyles();
-  className.push(classes.root);
+
+const CellBluePrint = (props) => {
+  const {
+    onDrop, onDragOver, onDragLeave, rendercomponent, cssstyles,
+  } = props;
   return (
-    <DroppableComponent meta={{ position, children: childelements }} >
-      <Grid item xs className={className.join(' ')}>
-        {children}
-      </Grid>
-    </DroppableComponent>
+    <Grid
+      item
+      xs
+      className={cssstyles}
+      onDrop={(e) => { onDrop(e); }}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+    >
+      {rendercomponent}
+    </Grid>
+  );
+};
+const Cell = (props) => {
+  const classes = useStyles();
+  const { position, children, nestedIndex } = props;
+
+  const Elem = DroppableComponent({
+    position, nestedIndex, rendercomponet: children, classes,
+  })(CellBluePrint);
+  return (
+    <Elem />
   );
 };
 

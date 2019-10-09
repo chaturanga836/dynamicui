@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { isArray } from 'lodash';
 
 const useStyles = makeStyles(() => ({
   defaulElem: {
@@ -18,57 +19,68 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const DroppableComponent = (WrapperComponent) => () => {
+const DroppableComponent = (args) => (WrapperComponent) => () => {
   /**
  *
  * @param {*} e
  *
  * Drop Event handel here
  */
-  const classes = useStyles();
-  let className = classes.defaulElem;
+  const classesStyle = useStyles();
 
+  let className = classesStyle.defaulElem;
+  const {
+    childElement, nestedIndex, position, nodeId, labelText, rendercomponet,
+    classes,
+  } = args;
 
   const dispatch = useDispatch();
   const [elemStyle, changeStyle] = useState({ className });
 
-  const drop = (e, position, currentIndex) => {
+  const drop = (e) => {
     e.preventDefault();
     const jsonString = e.dataTransfer.getData('text/plain');
     const data = JSON.parse(jsonString);
 
-    // console.log([elem,data])
-    // data.nestedlevel = elem.nestedlevel;
     changeStyle({ className });
     e.stopPropagation();
-    dispatch({ type: 'DRAG_SELECTOR', data: { position, currentIndex, element: data } });
+    dispatch({ type: 'DRAG_SELECTOR', data: { position, nestedIndex, element: data } });
   };
 
   const allowDrop = (e) => {
     e.preventDefault();
-    className = classes.selectDroppable;
+    className = classesStyle.selectDroppable;
     changeStyle({ className });
     e.stopPropagation();
   };
 
   const onDragLeav = (e) => {
     e.preventDefault();
-    className = classes.defaulElem;
+    className = classesStyle.defaulElem;
     changeStyle({ className });
     e.stopPropagation();
   };
 
+  const clNames = [elemStyle.className];
+
+  if (classes) {
+    Object.keys(classes).forEach((v) => clNames.push(v));
+  }
+
   return (
-    <>
-      <WrapperComponent
-        onDrop={drop}
-        onDragOver={allowDrop}
-        onDragLeave={onDragLeav}
-        className={elemStyle.className}
-      />
-    </>
+    <WrapperComponent
+      nodeId={nodeId}
+      onDrop={drop}
+      onDragOver={allowDrop}
+      onDragLeave={onDragLeav}
+      cssstyles={clNames.join(' ')}
+      position={position}
+      nestedindex={nestedIndex}
+      childelements={childElement}
+      labeltext={labelText}
+      rendercomponent={rendercomponet}
+    />
   );
 };
-
 
 export default DroppableComponent;

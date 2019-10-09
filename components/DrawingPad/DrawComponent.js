@@ -17,6 +17,7 @@ const DrawComponent = (comp) => {
     comp.childelements.map((v, k) => {
       const posArr = cloneDeep(comp.position);
       if (v.children && v.children.length > 0) {
+   
         return (
           <DrawElement
             nestedIndex={nestedIndex}
