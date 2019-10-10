@@ -1,11 +1,16 @@
+import React from 'react';
 import Button from '@material-ui/core/Button';
+import ToolBox from './Options/ToolBox';
 
 const ButtonElement = (props) => {
   const { text } = props;
   return (
-    <Button>
-      {text}
-    </Button>
+    <ToolBox>
+
+      <Button>
+        {text}
+      </Button>
+    </ToolBox>
   );
 };
 

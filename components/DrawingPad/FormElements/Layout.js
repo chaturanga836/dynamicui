@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import DroppableComponent from '../../DnD/DroppableComponent';
+import ToolBox from './Options/ToolBox';
 
 const useStyles = makeStyles((theme) => ({
   paperBody: {
@@ -13,20 +14,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BluPrint = (props) => {
-  const classes = useStyles();
   const {
-    onDrop, 
-    onDragOver,
-    onDragLeave, 
-    position,
-    childElement,
-    nestedIndex,
-    rendercomponent
+    onDrop, cssstyles, onDragOver, onDragLeave, rendercomponent,
   } = props;
 
   return (
     <Paper
-      className={classes.paperBody}
+      className={cssstyles}
       onDrop={(e) => { onDrop(e); }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
@@ -36,16 +30,14 @@ const BluPrint = (props) => {
   );
 };
 const Layout = (props) => {
-  const {
-    children, 
-    position, 
-    nestedIndex,
-  } = props;
+  const { position, renderProps, nestedIndex } = props;
 
   const classes = useStyles();
 
-  const Element = DroppableComponent({ position, nestedIndex, rendercomponet: children, classes })(BluPrint);
-  return (<Element>{children}</Element>);
+  const Element = DroppableComponent({
+    position, nestedIndex, rendercomponet: renderProps, classes,
+  })(BluPrint);
+  return (<ToolBox><Element /></ToolBox>);
 };
 
 export default Layout;

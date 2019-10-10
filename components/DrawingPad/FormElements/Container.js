@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import DroppableComponent from '../../DnD/DroppableComponent';
+import ToolBox from './Options/ToolBox';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -32,6 +33,7 @@ const ContainerGrid = (props) => {
     >
       {rendercomponent || ''}
     </Grid>
+
   );
 };
 
@@ -45,9 +47,9 @@ const Container = (props) => {
   })(ContainerGrid);
 
   return (
-    <>
+    <ToolBox>
       <Elem />
-    </>
+    </ToolBox>
   );
 };
 export default Container;
