@@ -1,7 +1,7 @@
 import React from 'react';
-import DroppableComponent from '../DnD/DroppableComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import DroppableComponent from '../../DnD/DroppableComponent';
 
 const useStyles = makeStyles((theme) => ({
   paperBody: {

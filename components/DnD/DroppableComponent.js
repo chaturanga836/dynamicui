@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { isArray } from 'lodash';
 
 const useStyles = makeStyles(() => ({
   defaulElem: {
@@ -11,12 +10,9 @@ const useStyles = makeStyles(() => ({
     width: '100%',
   },
   selectDroppable: {
-    '& > .drawElement': {
-      backgroundColor: 'rgba(102, 217, 255,0.75) !important',
-      boxShadow: '-2px 2px 8px -1px rgba(0,0,0,0.75)',
-    },
+    backgroundColor: 'rgba(102, 217, 255,0.75) !important',
+    boxShadow: '-2px 2px 8px -1px rgba(0,0,0,0.75)',
   },
-
 }));
 
 const DroppableComponent = (args) => (WrapperComponent) => () => {
@@ -64,9 +60,8 @@ const DroppableComponent = (args) => (WrapperComponent) => () => {
   const clNames = [elemStyle.className];
 
   if (classes) {
-    Object.keys(classes).forEach((v) => clNames.push(v));
+    Object.keys(classes).forEach((v) => clNames.push(classes[v]));
   }
-
   return (
     <WrapperComponent
       nodeId={nodeId}

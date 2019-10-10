@@ -81,66 +81,38 @@ export const Elements = [
   {
     value: 'container',
     text: 'CONTAINER',
+    component: 'Container',
     canHaveChildren: true,
-    icon: () => (
-      <>
-        <BorderOuter />
-      </>
-    ),
   },
   {
     value: 'layout',
     text: 'LAYOUT',
+    component: 'Layout',
     canHaveChildren: true,
-    icon: () => (
-      <>
-        <BorderOuter />
-      </>
-    ),
   },
-
   {
     value: 'input',
     text: 'INPUT',
+    component: 'Input',
     canHaveChildren: false,
-    icon: () => (
-      <>
-        <BorderOuter />
-      </>
-    ),
   },
-
   {
     value: 'combo-box',
     text: 'COMBO BOX',
+    component: 'ComboBox',
     canHaveChildren: false,
-    icon: () => (
-      <>
-        <CalendarToday />
-      </>
-    ),
   },
-
   {
     value: 'cell',
     text: 'CELL',
+    component: 'Cell',
     canHaveChildren: false,
-    icon: () => (
-      <>
-        <CalendarToday />
-      </>
-    ),
   },
-
   {
     value: 'radio-button',
     text: 'RADIO BUTTON',
+    component: 'RadioElement',
     canHaveChildren: false,
-    icon: () => (
-      <>
-        <CalendarToday />
-      </>
-    ),
   },
 
 ];

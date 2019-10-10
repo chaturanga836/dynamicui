@@ -17,11 +17,11 @@ const DrawComponent = (comp) => {
     comp.childelements.map((v, k) => {
       const posArr = cloneDeep(comp.position);
       if (v.children && v.children.length > 0) {
-   
         return (
           <DrawElement
             nestedIndex={nestedIndex}
             name={v.element.value}
+            element={v.element}
             key={v.id}
             index={k}
             childelements={v.children}
@@ -40,8 +40,9 @@ const DrawComponent = (comp) => {
         <DrawElement
           key={v.id}
           name={v.element.value}
+          element={v.element}
           index={k}
-          position={encriment(posArr, nestedIndex , k)}
+          position={encriment(posArr, nestedIndex, k)}
           childelements={[]}
         />
       );

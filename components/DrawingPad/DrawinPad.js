@@ -15,20 +15,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DrawindPadFormat = (props) => {
-  const classes = useStyles();
   const {
-    onDrop, 
-    onDragOver, 
-    onDragLeave, 
-    position, 
-    childelements, 
+    onDrop,
+    onDragOver,
+    onDragLeave,
+    position,
+    childelements,
     nestedindex,
     cssstyles,
   } = props;
-  console.log(cssstyles)
+
   return (
     <Paper
-      className={classes.paperBody}
+      className={cssstyles}
       onDrop={(e) => { onDrop(e); }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
@@ -47,7 +46,9 @@ const DrawindPadFormat = (props) => {
 const DrawingPad = () => {
   const classes = useStyles();
   const drwaObj = useSelector((state) => state.drawaingPad);
-  const Element = DroppableComponent({ position: [], nestedIndex: 0, childElement: drwaObj, classes })(DrawindPadFormat);
+  const Element = DroppableComponent({
+    position: [], nestedIndex: 0, childElement: drwaObj, classes,
+  })(DrawindPadFormat);
   return <Element />;
 };
 

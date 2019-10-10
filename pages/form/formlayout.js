@@ -22,10 +22,7 @@ import FormTitle from '../../components/CreateForm/FormTitle';
 import InputFormName from '../../components/CreateForm/InputFormName';
 import mainNavLayout from '../../components/MainNav';
 import SearchBar from '../../components/CreateForm/ComponentSerch/SearchBar';
-
-import Provider from '../../components/DnD/Provider';
 import DraggableComponent from '../../components/DnD/DraggableComponent';
-import DroppableComponent from '../../components/DnD/DroppableComponent';
 import DrawingPad from '../../components/DrawingPad/DrawinPad';
 import { Elements } from '../../components/CreateForm/Data';
 
@@ -95,8 +92,6 @@ const formLayout = () => {
   const rCount = useSelector((state) => state.rowCount);
   const cCount = useSelector((state) => state.colCount);
 
-
-  const selectedComponents = useSelector((state) => state.selectedComponents);
   const dispatch = useDispatch();
 
   const rowsKey = [];

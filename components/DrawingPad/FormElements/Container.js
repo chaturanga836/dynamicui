@@ -1,8 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import DroppableComponent from '../DnD/DroppableComponent';
-
+import DroppableComponent from '../../DnD/DroppableComponent';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -15,33 +14,40 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const CellBluePrint = (props) => {
+
+const ContainerGrid = (props) => {
   const {
-    onDrop, onDragOver, onDragLeave, rendercomponent, cssstyles,
+    onDrop, cssstyles, onDragOver, onDragLeave, rendercomponent,
   } = props;
+
   return (
+
     <Grid
-      item
-      xs
+      container
+      spacing={1}
       className={cssstyles}
       onDrop={(e) => { onDrop(e); }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
     >
-      {rendercomponent}
+      {rendercomponent || ''}
     </Grid>
   );
 };
-const Cell = (props) => {
-  const classes = useStyles();
-  const { position, children, nestedIndex } = props;
 
+
+const Container = (props) => {
+  const classes = useStyles();
+
+  const { position, renderProps, nestedIndex } = props;
   const Elem = DroppableComponent({
-    position, nestedIndex, rendercomponet: children, classes,
-  })(CellBluePrint);
+    position, nestedIndex, rendercomponet: renderProps, classes,
+  })(ContainerGrid);
+
   return (
-    <Elem />
+    <>
+      <Elem />
+    </>
   );
 };
-
-export default Cell;
+export default Container;

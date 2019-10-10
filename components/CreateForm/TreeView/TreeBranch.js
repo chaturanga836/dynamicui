@@ -2,8 +2,10 @@ import React from 'react';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { cloneDeep } from 'lodash';
 import DroppableComponent from '../../DnD/DroppableComponent';
+
 
 const useTreeItemStyles = makeStyles((theme) => ({
   root: {
@@ -60,10 +62,10 @@ const StyledTreeItem = (props) => {
       label={(
         <div className={classes.labelRoot}>
           <Typography variant="body2" className={classes.labelText}>
-            {labeltext}
+            {labeltext} 
           </Typography>
           <Typography variant="caption" color="inherit">
-            {labelInfo}
+            {labelInfo} <MoreVertIcon />
           </Typography>
         </div>
 )}
