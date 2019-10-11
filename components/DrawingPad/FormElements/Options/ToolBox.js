@@ -1,18 +1,32 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-
-  moreVectorIcon: {
-    backgroundColor: 'none',
-    padding: '1px',
+const useStyles = makeStyles(theme => ({
+  toolboxContainer: {
+    bottom: 'auto',
+    left: 'auto',
+    top: '42%',
+    position: 'absolute',
+    zIndex: 1,
+    visibility: 'hidden',
   },
-
+  fab: {
+    margin: theme.spacing(1),
+    display: 'list-item',
+    height: 36,
+    width: 36,
+    listStyle: 'none',
+    fontSize: 1.5,
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
 const options = [
@@ -48,32 +62,20 @@ const ToolBox = (props) => {
   const classes = useStyles();
 
   return (
-    <Box>
+    <div className={classes.root}>
 
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        className={classes.moreVectorIcon}
-      >
-        <MoreVertIcon/>
-      </IconButton>
-      <Menu
-        id="long-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={handleClose}
-      >
-        {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
+    
+      <div className={classes.toolboxContainer}>
+
+      <Fab color="secondary" aria-label="edit" className={classes.fab}>
+        <EditIcon />
+      </Fab>
+      <Fab aria-label="delete" className={classes.fab}>
+        <DeleteIcon />
+      </Fab>
+      </div>
       {props.children}
-    </Box>
+    </div>
   );
 };
 

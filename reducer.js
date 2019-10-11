@@ -69,8 +69,13 @@ function reducer(state = initialState, action) {
       const iterate = (obj, elem, mPosition, incval) => {
         const [xPos, yPos] = mPosition[incval];
 
+
         if (xPos !== incval) {
-          iterate(obj[yPos].children, elem, mPosition, incval + 1);
+          try {
+            iterate(obj[yPos].children, elem, mPosition, incval + 1);
+          } catch (err) {
+            throw err;
+          }
         } else {
           obj[yPos].children.push({
             parent: 'root',
@@ -114,7 +119,7 @@ function reducer(state = initialState, action) {
       } else {
         iterate(newDrawaingPad, element, position, 0);
       }
-
+       console.log(newDrawaingPad);
       return assign(state, { drawaingPad: newDrawaingPad });
     }
 

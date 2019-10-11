@@ -25,7 +25,7 @@ const BluPrint = (props) => {
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
     >
-      {rendercomponent}
+      {rendercomponent || ''}
     </Paper>
   );
 };
@@ -37,7 +37,7 @@ const Layout = (props) => {
   const Element = DroppableComponent({
     position, nestedIndex, rendercomponet: renderProps, classes,
   })(BluPrint);
-  return (<ToolBox><Element /></ToolBox>);
+  return (<Element />);
 };
 
 export default Layout;

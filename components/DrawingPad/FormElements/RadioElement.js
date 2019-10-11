@@ -3,7 +3,7 @@ import ToolBox from './Options/ToolBox';
 
 const RadioElement = (props) =>{
     const { cssstyles } = props;
-    return (<ToolBox><Radio /></ToolBox>)
+    return (<Radio />)
 }
 
 export default RadioElement;

@@ -27,9 +27,7 @@ const RadioGroup = (props) => {
   })(BluPrint);
 
   return (
-    <ToolBox>
       <Elem />
-    </ToolBox>
   );
 };
 

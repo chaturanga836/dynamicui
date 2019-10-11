@@ -9,11 +9,14 @@ const DrawElement = (props) => {
     nestedIndex, 
     element,
   } = props;
+ 
 
   const { component } = element;
-
+  //console.log(component);
   const MyComponent = loadable(() => import(`./FormElements/${component}`));
-  const classNames = ['drawElement'];
+  const classNames = 'drawElement';
+
+
 
   return (
     <MyComponent

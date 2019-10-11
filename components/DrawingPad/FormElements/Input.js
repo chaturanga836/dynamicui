@@ -8,14 +8,12 @@ import ToolBox from './Options/ToolBox';
 const Input = (props) => {
   const { cssstyles } = props;
   return (
-    <ToolBox>
       <TextField
         id="outlined-name"
         className={cssstyles}
         margin="normal"
         variant="outlined"
       />
-    </ToolBox>
   );
 };
 
