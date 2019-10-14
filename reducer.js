@@ -20,6 +20,12 @@ export const initialState = {
   rowCount: 4,
   colCount: 2,
   drawaingPad: [],
+  space: [
+    [1, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0],
+    [1, 1, 0, 0, 0],
+    [1, 1, 0, 0, 0],
+  ],
 };
 
 function reducer(state = initialState, action) {
@@ -119,12 +125,13 @@ function reducer(state = initialState, action) {
       } else {
         iterate(newDrawaingPad, element, position, 0);
       }
-       console.log(newDrawaingPad);
+
       return assign(state, { drawaingPad: newDrawaingPad });
     }
 
-    default:
+    default: {
       return state;
+    }
   }
 }
 

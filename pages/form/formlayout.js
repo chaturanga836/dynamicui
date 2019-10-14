@@ -17,6 +17,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import InboxIcon from '@material-ui/icons/Inbox';
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import TreeViewList from '../../components/CreateForm/TreeViewList';
 import FormTitle from '../../components/CreateForm/FormTitle';
 import InputFormName from '../../components/CreateForm/InputFormName';
@@ -24,8 +26,131 @@ import mainNavLayout from '../../components/MainNav';
 import DraggableComponent from '../../components/DnD/DraggableComponent';
 import DrawingPad from '../../components/DrawingPad/DrawinPad';
 import { Elements } from '../../components/CreateForm/Data';
-import Box from '@material-ui/core/Box';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+
+const space = [
+  [1, 1, 0, 0, 1],
+  [1, 1, 1, 0, 0],
+  [0, 0, 0, 1, 1],
+  [0, 0, 0, 1, 1],
+];
+
+const h = space.length;
+const w = space[0].length;
+
+const usedSapces = [];
+
+const moveLeft = (node, yPos, xPos) => {
+  if (xPos < 0) {
+    return;
+  }
+
+  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
+    return;
+  }
+
+  node.nearSpace.push([xPos, yPos]);
+  moveLeft(node, yPos, xPos - 1);
+};
+
+const moveRight = (node, yPos, xPos) => {
+  if (xPos >= w) {
+    return;
+  }
+
+  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
+    return;
+  }
+
+
+  node.nearSpace.push([xPos, yPos]);
+  moveRight(node, yPos, xPos + 1);
+};
+
+const moveUp = (node, yPos, xPos) => {
+  if (yPos < 0) {
+    return;
+  }
+
+  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
+    return;
+  }
+
+  node.nearSpace.push([xPos, yPos]);
+  moveUp(node, yPos - 1, xPos);
+};
+
+const moveDown = (node, yPos, xPos) => {
+  if (yPos >= h) {
+    return;
+  }
+
+  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
+    return;
+  }
+  node.nearSpace.push([xPos, yPos]);
+  moveDown(node, yPos + 1, xPos);
+};
+
+const findElem = (row, col) => {
+  if (space[row] !== undefined && space[row][col] !== undefined && space[row][col] !== 0) {
+    return true;
+  }
+
+  return false;
+};
+
+const findNeigbours = (pos) => {
+  let [rPos, cPos] = pos.split('-');
+  rPos = parseInt(rPos);
+  cPos = parseInt(cPos);
+
+  const arr = [];
+  findElem(rPos - 1, cPos - 1) ? arr.push(`${rPos - 1}-${cPos - 1}`) : '';
+
+
+  findElem(rPos - 1, cPos) ? arr.push(`${rPos - 1}-${cPos}`) : '';
+
+
+  findElem(rPos - 1, cPos + 1) ? arr.push(`${rPos - 1}-${cPos + 1}`) : '';
+
+
+  findElem(rPos, cPos - 1) ? arr.push(`${rPos}-${cPos - 1}`) : '';
+
+
+  findElem(rPos, cPos) ? arr.push(`${rPos}-${cPos}`) : '';
+
+
+  findElem(rPos, cPos + 1) ? arr.push(`${rPos}-${cPos + 1}`) : '';
+
+
+  findElem(rPos + 1, cPos + 1) ? arr.push(`${rPos + 1}-${cPos + 1}`) : '';
+
+
+  findElem(rPos + 1, cPos - 1) ? arr.push(`${rPos + 1}-${cPos - 1}`) : '';
+
+
+  findElem(rPos + 1, cPos) ? arr.push(`${rPos + 1}-${cPos}`) : '';
+
+
+  findElem(rPos + 1, cPos + 1) ? arr.push(`${rPos + 1}-${cPos + 1}`) : '';
+
+
+  return arr;
+};
+
+Object.keys(space).forEach((k) => {
+  Object.keys(space[k]).forEach((i) => {
+    if (space[k][i] === 1) {
+      const res = findNeigbours(`${parseInt(k)}-${parseInt(i)}`);
+      usedSapces.push(res);
+    }
+  });
+});
+
+// Object.keys(usedSapces).forEach( k =>{
+//   findNeigbours( usedSapces[k] );
+// });
+ console.log(usedSapces);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,9 +223,9 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'center',
   },
 
-  elementScroll:{
+  elementScroll: {
     overflow: 'auto',
-  }
+  },
 }));
 
 const formLayout = () => {
@@ -165,9 +290,9 @@ const formLayout = () => {
                   <AppBar
                     position="static"
                     color="primary"
-                  > 
+                  >
                     <Toolbar>
-                    <Typography >Elements</Typography>
+                      <Typography>Elements</Typography>
 
                     </Toolbar>
                   </AppBar>
@@ -229,7 +354,7 @@ const formLayout = () => {
                     <ElevationScroll>
                       <AppBar position="static" color="primary">
                         <Toolbar>
-                          <Typography >Out Line</Typography>
+                          <Typography>Out Line</Typography>
                         </Toolbar>
                       </AppBar>
                     </ElevationScroll>
