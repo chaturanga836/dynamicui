@@ -19,6 +19,7 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { NotificationsOutlined } from '@material-ui/icons';
 import TreeViewList from '../../components/CreateForm/TreeViewList';
 import FormTitle from '../../components/CreateForm/FormTitle';
 import InputFormName from '../../components/CreateForm/InputFormName';
@@ -28,129 +29,110 @@ import DrawingPad from '../../components/DrawingPad/DrawinPad';
 import { Elements } from '../../components/CreateForm/Data';
 
 const space = [
-  [1, 1, 0, 0, 1],
+  [1, 1, 0, 0, 0],
   [1, 1, 1, 0, 0],
-  [0, 0, 0, 1, 1],
-  [0, 0, 0, 1, 1],
+  [1, 0, 0, 1, 1],
+  [1, 0, 1, 0, 1],
 ];
 
 const h = space.length;
 const w = space[0].length;
 
 const usedSapces = [];
+const usedIndexs = [];
 
-const moveLeft = (node, yPos, xPos) => {
-  if (xPos < 0) {
-    return;
-  }
+const findPosition = (pos) => {
+  if (usedSapces.indexOf(pos) > -1 && usedIndexs.indexOf(pos) < 0) {
 
-  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
-    return;
-  }
-
-  node.nearSpace.push([xPos, yPos]);
-  moveLeft(node, yPos, xPos - 1);
-};
-
-const moveRight = (node, yPos, xPos) => {
-  if (xPos >= w) {
-    return;
-  }
-
-  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
-    return;
-  }
-
-
-  node.nearSpace.push([xPos, yPos]);
-  moveRight(node, yPos, xPos + 1);
-};
-
-const moveUp = (node, yPos, xPos) => {
-  if (yPos < 0) {
-    return;
-  }
-
-  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
-    return;
-  }
-
-  node.nearSpace.push([xPos, yPos]);
-  moveUp(node, yPos - 1, xPos);
-};
-
-const moveDown = (node, yPos, xPos) => {
-  if (yPos >= h) {
-    return;
-  }
-
-  if (space[xPos] === undefined || space[xPos][yPos] == '0') {
-    return;
-  }
-  node.nearSpace.push([xPos, yPos]);
-  moveDown(node, yPos + 1, xPos);
-};
-
-const findElem = (row, col) => {
-  if (space[row] !== undefined && space[row][col] !== undefined && space[row][col] !== 0) {
+    usedIndexs.push(pos);
     return true;
   }
-
   return false;
 };
 
-const findNeigbours = (pos) => {
-  let [rPos, cPos] = pos.split('-');
-  rPos = parseInt(rPos);
-  cPos = parseInt(cPos);
-
-  const arr = [];
-  findElem(rPos - 1, cPos - 1) ? arr.push(`${rPos - 1}-${cPos - 1}`) : '';
-
-
-  findElem(rPos - 1, cPos) ? arr.push(`${rPos - 1}-${cPos}`) : '';
-
-
-  findElem(rPos - 1, cPos + 1) ? arr.push(`${rPos - 1}-${cPos + 1}`) : '';
-
-
-  findElem(rPos, cPos - 1) ? arr.push(`${rPos}-${cPos - 1}`) : '';
-
-
-  findElem(rPos, cPos) ? arr.push(`${rPos}-${cPos}`) : '';
-
-
-  findElem(rPos, cPos + 1) ? arr.push(`${rPos}-${cPos + 1}`) : '';
-
-
-  findElem(rPos + 1, cPos + 1) ? arr.push(`${rPos + 1}-${cPos + 1}`) : '';
-
-
-  findElem(rPos + 1, cPos - 1) ? arr.push(`${rPos + 1}-${cPos - 1}`) : '';
-
-
-  findElem(rPos + 1, cPos) ? arr.push(`${rPos + 1}-${cPos}`) : '';
-
-
-  findElem(rPos + 1, cPos + 1) ? arr.push(`${rPos + 1}-${cPos + 1}`) : '';
-
-
-  return arr;
-};
 
 Object.keys(space).forEach((k) => {
   Object.keys(space[k]).forEach((i) => {
     if (space[k][i] === 1) {
-      const res = findNeigbours(`${parseInt(k)}-${parseInt(i)}`);
-      usedSapces.push(res);
+      usedSapces.push(`${parseInt(k)}|${parseInt(i)}`);
     }
   });
 });
 
-// Object.keys(usedSapces).forEach( k =>{
-//   findNeigbours( usedSapces[k] );
-// });
- console.log(usedSapces);
+const findAdjecents = (pos, arr) => {
+  let [rPos, cPos] = pos.split('|');
+  rPos = parseInt(rPos);
+  cPos = parseInt(cPos);
+
+  if (usedIndexs.indexOf(pos) < 0) {
+    arr.push(pos);
+    usedIndexs.push(pos);
+  }
+
+
+  const pUp = `${rPos - 1}|${cPos}`;
+  const pDonw = `${rPos + 1}|${cPos}`;
+  const pLeft = `${rPos}|${cPos - 1}`;
+  const pRight = `${rPos}|${cPos + 1}`;
+  
+
+  const up = findPosition(pUp, arr);
+  const down = findPosition(pDonw, arr);
+  const left = findPosition(pLeft, arr);
+  const right = findPosition(pRight, arr);
+
+
+  if (up) {
+    arr.push(pUp);
+    const res = findAdjecents(pUp, []);
+    if (res.length > 0) {
+      arr = arr.concat(res);
+    }
+  }
+
+  if (down) {
+    arr.push(pDonw);
+    const res = findAdjecents(pDonw, []);
+    if (res.length > 0) {
+      arr = arr.concat(res);
+    }
+  }
+
+  if (left) {
+    arr.push(pLeft);
+    const res = findAdjecents(pLeft, []);
+    if (res.length > 0) {
+      arr = arr.concat(res);
+    }
+  }
+
+  if (right) {
+    arr.push(pRight);
+    const res = findAdjecents(pRight, []);
+    if (res.length > 0) {
+      arr = arr.concat(res);
+    }
+  }
+
+  return arr;
+};
+
+const overall = [];
+const iterateArr = () => {
+  const result = findAdjecents(usedSapces[0], []);
+
+  if (result.length > 0) {
+    overall.push(result);
+  }
+
+  usedSapces.shift();
+  if (usedSapces.length > 0) {
+    iterateArr(usedSapces);
+  }
+};
+
+ iterateArr();
+ console.log(overall);
 
 const useStyles = makeStyles((theme) => ({
   root: {
